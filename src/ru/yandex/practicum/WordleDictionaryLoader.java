@@ -15,7 +15,7 @@ import static ru.yandex.practicum.LogWriter.logWrite;
 public class WordleDictionaryLoader {
 
     public WordleDictionary loadDictionary(String fileName) {
-        try(Reader fileReader = new FileReader(fileName, StandardCharsets.UTF_8);
+        try (Reader fileReader = new FileReader(fileName, StandardCharsets.UTF_8);
             BufferedReader reader = new BufferedReader(fileReader)) {
             List<String> dictionary = new ArrayList<>();
             String line;
@@ -27,7 +27,7 @@ public class WordleDictionaryLoader {
                         continue;
                     }
                     word = word.toLowerCase();
-                    if (word.indexOf("ё") != -1){
+                    if (word.indexOf("ё") != -1) {
                         word = word.replace("ё", "е");
                     }
                     dictionary.add(word);
