@@ -33,13 +33,13 @@ public class WordleDictionary {
 
     public static boolean checkWord(String word) {
         try {
-            if (word.length() != 5){
+            if (word.length() != 5) {
                 throw new WordError("Слово не подходит по длине");
             } else if (!words.contains(word)) {
                 throw new WordError("Слово не найдено в словаре");
             }
             return true;
-        } catch (WordError e){
+        } catch (WordError e) {
             System.out.println(e.getMessage());
             logWrite(e);
         }
@@ -50,21 +50,21 @@ public class WordleDictionary {
         addWords.add(word);
         int i = 0;
         for (Character c : position.toCharArray()) {
-            if (c == '+'){
+            if (c == '+') {
                 for (String w : words) {
-                    if (w.charAt(i) != word.charAt(i)){
+                    if (w.charAt(i) != word.charAt(i)) {
                         hintList.remove(w);
                     }
                 }
-            } else if (c == '^'){
+            } else if (c == '^') {
                 for (String w : words) {
-                    if (w.indexOf(word.charAt(i)) == -1){
+                    if (w.indexOf(word.charAt(i)) == -1) {
                         hintList.remove(w);
                     }
                 }
-            }else {
+            } else {
                 for (String w : words) {
-                    if (w.indexOf(word.charAt(i)) != -1){
+                    if (w.indexOf(word.charAt(i)) != -1) {
                         hintList.remove(w);
                     }
                 }
@@ -78,5 +78,7 @@ public class WordleDictionary {
         return hintList.get(rand.nextInt(hintList.size()));
     }
 
-    public void clearHint() {}
+    public void clearHint() {
+        hintList = new ArrayList<>(words);
+    }
 }

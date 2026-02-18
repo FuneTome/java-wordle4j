@@ -60,7 +60,8 @@ public class Wordle {
                     System.out.println("Хотите начать сначала? (Y/N)");
                     String answer = sc.nextLine();
                     if (answer.equals("Y")) {
-                        game.setSteps(0);
+                        game.setSteps(1);
+                        dictionary.clearHint();
                         continue;
                     } else {
                         return;
