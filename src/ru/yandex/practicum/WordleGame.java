@@ -40,7 +40,7 @@ public class WordleGame {
         answer = dictionary.getWords().get(rand.nextInt(dictionary.size()));
     }
 
-    public String getWinWorld(){
+    public String getWinWorld() {
         return answer;
     }
 
@@ -50,10 +50,10 @@ public class WordleGame {
 
     public String getPosition(String word) {
         String res = "";
-        for (int i = 0; i < 5; i++){
+        for (int i = 0; i < 5; i++) {
             if (word.charAt(i) == answer.charAt(i)) {
                 res += "+";
-            } else if (answer.indexOf(word.charAt(i)) != -1){
+            } else if (answer.indexOf(word.charAt(i)) != -1) {
                 res += "^";
             } else {
                 res += "-";
