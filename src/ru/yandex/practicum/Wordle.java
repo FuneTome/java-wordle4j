@@ -24,17 +24,16 @@ public class Wordle {
         WordleGame game = new WordleGame(dictionary);
 
         boolean isHint = true;
-        while (true){
-            if (game.getSteps() == 1 && isHint){
+        while (true) {
+            if (game.getSteps() == 1 && isHint) {
                 game.gameStart();
                 System.out.println("Начинаем!\nСлово загадано!");
-            }
-            else if (game.getSteps() > 5){
+            } else if (game.getSteps() > 5) {
                 System.out.println("Вы проиграли!");
                 System.out.println("Загаданное слово это " + game.getWinWorld());
                 System.out.println("Хотите начать сначала? (Y/N)");
                 String answer = sc.nextLine();
-                if (answer.equals("Y")){
+                if (answer.equals("Y")) {
                     game.setSteps(1);
                     continue;
                 } else {
@@ -45,7 +44,7 @@ public class Wordle {
             System.out.println("Попытка номер " + game.getSteps());
             System.out.println("Введите слово");
             String word = sc.nextLine();
-            if (word.isBlank()){
+            if (word.isBlank()) {
                 System.out.println("Подсказка: " + dictionary.getHint(word));
                 isHint = false;
             } else {
