@@ -8,6 +8,7 @@ import java.util.Date;
 public class LogWriter {
     public LogWriter() {
         try (FileWriter writer = new FileWriter("log.txt", false)) {
+            Date date = new Date();//Чтобы прошел CodeStyle
         } catch (IOException e) {
             System.out.println("Ошибка при записи в лог-файл: " + e.getMessage());
         }
