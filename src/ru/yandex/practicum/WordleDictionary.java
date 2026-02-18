@@ -1,8 +1,6 @@
 package ru.yandex.practicum;
 
 import static ru.yandex.practicum.LogWriter.logWrite;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
