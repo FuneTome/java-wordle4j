@@ -17,15 +17,10 @@ public class Wordle {
     static final int ENDSTEP = 5;
     static final String WINANSWER = "+++++";
 
-    public static void main(String[] args) {
+
+        public static void main (String[]args){
+        try(LogWriter log = new LogWriter()) {
         Scanner sc = new Scanner(System.in);
-        LogWriter log = null;
-        try {
-            log = new LogWriter();
-        } catch (IOException e) {
-            System.err.println("Не удалось создать лог-файл: " + e.getMessage());
-            return;
-        }
 
         WordleDictionaryLoader loader = new WordleDictionaryLoader(log);
         WordleDictionary dictionary = loader.loadDictionary("words_ru.txt");
@@ -80,6 +75,9 @@ public class Wordle {
                 }
             }
         }
+    } catch (IOException e) {
+                System.err.println("Не удалось создать лог-файл: " + e.getMessage());
+                return;
+            }
     }
-
 }

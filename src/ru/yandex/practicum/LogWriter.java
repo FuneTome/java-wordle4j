@@ -17,6 +17,7 @@ public class LogWriter implements AutoCloseable {
         Date date = new Date();
         try {
             writer.write("Время: " + dateFormat.format(date) + " - Ошибка: " + e.getMessage() + "\n");
+            writer.flush();
         } catch (IOException ex) {
             System.err.println("Не удалось записать в лог: " + ex.getMessage());
         }

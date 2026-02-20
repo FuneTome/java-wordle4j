@@ -10,8 +10,8 @@ import java.util.*;
 public class WordleDictionary {
     static final int MAXWORDLENGTH = 5;
     private List<String> words;
-    private static Set<String> hintSet;
-    private static final List<String> addWords = new ArrayList<>();
+    private Set<String> hintSet;
+    private final List<String> addWords = new ArrayList<>();
 
     private LogWriter logWriter;  // новое поле
 
