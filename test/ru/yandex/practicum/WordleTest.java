@@ -1,16 +1,20 @@
 package ru.yandex.practicum;
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class WordleTest {
-    WordleDictionaryLoader loader = new WordleDictionaryLoader();
+    WordleDictionaryLoader loader = new WordleDictionaryLoader(new LogWriter());
     WordleDictionary dictionary = loader.loadDictionary("words_ru.txt");
     WordleGame game = new WordleGame(dictionary);
+
+    WordleTest() throws IOException {
+    }
 
     @BeforeEach
     public void updateGame(){
@@ -40,18 +44,22 @@ class WordleTest {
 
     @Test
     public void testNoCorrectLength() {
-        assertFalse(WordleDictionary.checkWord("океаны"));
+        Assertions.assertFalse(dictionary.checkWord("океаны"));
     }
 
     @Test
     public void testNoCorrectValue() {
-        assertFalse(WordleDictionary.checkWord("океен"));
+        assertFalse(dictionary.checkWord("океен"));
     }
 
 
     @Test
     public void testCorrectValue(){
-        Assertions.assertTrue(WordleDictionary.checkWord("океан"));
+        Assertions.assertTrue(dictionary.checkWord("океан"));
     }
 
+    @Test
+    public void testNormalizeMethod(){
+        Assertions.assertEquals("океан", WordleDictionary.normalize("  ОкёАН    "));
+    }
 }

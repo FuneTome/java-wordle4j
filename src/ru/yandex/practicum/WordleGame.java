@@ -50,7 +50,7 @@ public class WordleGame {
 
     public String getPosition(String word) {
         String res = "";
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < word.length(); i++) {
             if (word.charAt(i) == answer.charAt(i)) {
                 res += "+";
             } else if (answer.indexOf(word.charAt(i)) != -1) {
@@ -59,7 +59,7 @@ public class WordleGame {
                 res += "-";
             }
         }
-        WordleDictionary.addWord(word, res);
+        dictionary.addWord(word, res);
         return res;
     }
 }

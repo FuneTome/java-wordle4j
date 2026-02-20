@@ -1,9 +1,6 @@
 package ru.yandex.practicum;
 
-import static ru.yandex.practicum.LogWriter.logWrite;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 /*
 этот класс содержит в себе список слов List<String>
@@ -11,14 +8,17 @@ import java.util.Random;
     также этот класс может содержать рутинные функции посравнению слов, букв и т.д.
  */
 public class WordleDictionary {
+    static final int MAXWORDLENGTH = 5;
+    private List<String> words;
+    private static Set<String> hintSet;
+    private static final List<String> addWords = new ArrayList<>();
 
-    private static List<String> words;
-    private static List<String> hintList;
-    private static List<String> addWords = new ArrayList<>();
+    private LogWriter logWriter;  // новое поле
 
-    public WordleDictionary(List<String> words) {
+    public WordleDictionary(List<String> words, LogWriter logWriter) {
         this.words = words;
-        this.hintList = new ArrayList<>(words);
+        this.hintSet = new HashSet<>(words);
+        this.logWriter = logWriter;
     }
 
     public List<String> getWords() {
@@ -29,41 +29,41 @@ public class WordleDictionary {
         return words.size();
     }
 
-    public static boolean checkWord(String word) {
-        try {
-            if (word.length() != 5) {
-                throw new WordError("Слово не подходит по длине");
-            } else if (!words.contains(word)) {
-                throw new WordError("Слово не найдено в словаре");
-            }
-            return true;
-        } catch (WordError e) {
-            System.out.println(e.getMessage());
-            logWrite(e);
+    public boolean checkWord(String word) {
+        if (word.length() != MAXWORDLENGTH) {
+            logWriter.logWrite(new WordException("Слово не подходит по длине"));
+            return false;
+        } else if (!words.contains(word)) {
+            logWriter.logWrite(new WordException("Слово не найдено в словаре"));
+            return false;
         }
-        return false;
+        return true;
     }
 
-    public static void addWord(String word, String position) {
+    public static String normalize(String word) {
+        return word.trim().toLowerCase().replace("ё", "е");
+    }
+
+    public void addWord(String word, String position) {
         addWords.add(word);
         int i = 0;
         for (Character c : position.toCharArray()) {
             if (c == '+') {
                 for (String w : words) {
                     if (w.charAt(i) != word.charAt(i)) {
-                        hintList.remove(w);
+                        hintSet.remove(w);
                     }
                 }
             } else if (c == '^') {
                 for (String w : words) {
                     if (w.indexOf(word.charAt(i)) == -1) {
-                        hintList.remove(w);
+                        hintSet.remove(w);
                     }
                 }
             } else {
                 for (String w : words) {
                     if (w.indexOf(word.charAt(i)) != -1) {
-                        hintList.remove(w);
+                        hintSet.remove(w);
                     }
                 }
             }
@@ -71,12 +71,20 @@ public class WordleDictionary {
         }
     }
 
-    public String getHint(String word) {
+    public String getHint() {
         Random rand = new Random();
-        return hintList.get(rand.nextInt(hintList.size()));
+        int index = rand.nextInt(hintSet.size());
+        int i = 0;
+        for (String element : hintSet) {
+            if (i == index) {
+                return element;
+            }
+            i++;
+        }
+        return null;
     }
 
     public void clearHint() {
-        hintList = new ArrayList<>(words);
+        hintSet = new HashSet<>(words);
     }
 }

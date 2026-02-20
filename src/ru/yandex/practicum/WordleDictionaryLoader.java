@@ -5,14 +5,18 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
-import static ru.yandex.practicum.LogWriter.logWrite;
-
 /*
 этот класс содержит в себе всю рутину по работе с файлами словарей и с кодировками
     ему нужны методы по загрузке списка слов из файла по имени файла
     на выходе должен быть класс WordleDictionary
  */
 public class WordleDictionaryLoader {
+    final int MAXWORDLENGTH = 5;
+    private LogWriter logWriter;
+
+    public WordleDictionaryLoader(LogWriter logWriter) {
+        this.logWriter = logWriter;
+    }
 
     public WordleDictionary loadDictionary(String fileName) {
         try (Reader fileReader = new FileReader(fileName, StandardCharsets.UTF_8);
@@ -23,22 +27,16 @@ public class WordleDictionaryLoader {
             while ((line = reader.readLine()) != null) {
                 words = line.split(" ");
                 for (String word : words) {
-                    if (word.length() != 5) {
+                    if (word.length() != MAXWORDLENGTH) {
                         continue;
                     }
-                    word = word.toLowerCase();
-                    if (word.indexOf("ё") != -1) {
-                        word = word.replace("ё", "е");
-                    }
-                    dictionary.add(word);
+                    dictionary.add(WordleDictionary.normalize(word));
                 }
             }
-            return new WordleDictionary(dictionary);
-        } catch (FileNotFoundException e) {
-            logWrite(e);
+            return new WordleDictionary(dictionary, logWriter);
         } catch (IOException e) {
-            logWrite(e);
+            logWriter.logWrite(e);
+            return null;
         }
-        return null;
     }
 }

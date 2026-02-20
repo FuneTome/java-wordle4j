@@ -1,7 +1,7 @@
 package ru.yandex.practicum;
 
+import java.io.IOException;
 import java.util.Scanner;
-import static ru.yandex.practicum.WordleDictionary.checkWord;
 
 /*
 в главном классе нам нужно:
@@ -16,25 +16,35 @@ public class Wordle {
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        LogWriter log = new LogWriter(); //костыль чтобы при перезапуске файл с логами очищался
-                                        // но при работе записывал подряд
+        LogWriter log = null;
+        try {
+            log = new LogWriter();
+        } catch (IOException e) {
+            System.err.println("Не удалось создать лог-файл: " + e.getMessage());
+            return;
+        }
 
-        WordleDictionaryLoader loader = new WordleDictionaryLoader();
+        final int STARTSTEP = 1;
+        final int ENDSTEP = 5;
+        final String WINANSWER = "+++++";
+
+        WordleDictionaryLoader loader = new WordleDictionaryLoader(log);
         WordleDictionary dictionary = loader.loadDictionary("words_ru.txt");
         WordleGame game = new WordleGame(dictionary);
 
         boolean isHint = true;
         while (true) {
-            if (game.getSteps() == 1 && isHint) {
+            if (game.getSteps() == STARTSTEP && isHint) {
                 game.gameStart();
                 System.out.println("Начинаем!\nСлово загадано!");
-            } else if (game.getSteps() > 5) {
+            } else if (game.getSteps() > ENDSTEP) {
                 System.out.println("Вы проиграли!");
                 System.out.println("Загаданное слово это " + game.getWinWorld());
                 System.out.println("Хотите начать сначала? (Y/N)");
                 String answer = sc.nextLine();
                 if (answer.equals("Y")) {
-                    game.setSteps(1);
+                    game.setSteps(STARTSTEP);
+                    dictionary.clearHint();
                     continue;
                 } else {
                     return;
@@ -45,29 +55,29 @@ public class Wordle {
             System.out.println("Введите слово");
             String word = sc.nextLine();
             if (word.isBlank()) {
-                System.out.println("Подсказка: " + dictionary.getHint(word));
+                System.out.println("Подсказка: " + dictionary.getHint());
                 isHint = false;
             } else {
                 isHint = true;
-                while (!checkWord(word)) {
+                while (!dictionary.checkWord(word)) {
                     System.out.println("Введите слово");
                     word = sc.nextLine();
                 }
-                String ans = game.getPosition(word.toLowerCase());
+                String ans = game.getPosition(word);
                 System.out.println(ans);
-                if (ans.equals("+++++")) {
+                if (ans.equals(WINANSWER)) {
                     System.out.println("Вы угадали!");
                     System.out.println("Хотите начать сначала? (Y/N)");
                     String answer = sc.nextLine();
                     if (answer.equals("Y")) {
-                        game.setSteps(1);
+                        game.setSteps(STARTSTEP);
                         dictionary.clearHint();
                         continue;
                     } else {
                         return;
                     }
                 } else {
-                    game.setSteps(game.getSteps() + 1);
+                    game.setSteps(game.getSteps() + STARTSTEP);
                 }
             }
         }
