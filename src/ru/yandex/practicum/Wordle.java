@@ -13,10 +13,10 @@ import java.util.Scanner;
     вывести состояние игры и конечный результат
  */
 public class Wordle {
-
     static final int STARTSTEP = 1;
     static final int ENDSTEP = 5;
     static final String WINANSWER = "+++++";
+
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         LogWriter log = null;
