@@ -1,5 +1,7 @@
 package ru.yandex.practicum;
 
+import java.util.Random;
+
 /*
 в этом классе хранится словарь и состояние игры
     текущий шаг
@@ -15,9 +17,49 @@ package ru.yandex.practicum;
 public class WordleGame {
 
     private String answer;
-
     private int steps;
-
     private WordleDictionary dictionary;
 
+
+    public WordleGame(WordleDictionary dictionary) {
+        this.answer = null;
+        this.steps = 1;
+        this.dictionary = dictionary;
+    }
+
+    public int getSteps() {
+        return steps;
+    }
+
+    public void setSteps(int steps) {
+        this.steps = steps;
+    }
+
+    public void gameStart() {
+        Random rand = new Random();
+        answer = dictionary.getWords().get(rand.nextInt(dictionary.size()));
+    }
+
+    public String getWinWorld() {
+        return answer;
+    }
+
+    public void setAnswer(String answer) {
+        this.answer = answer;
+    }
+
+    public String getPosition(String word) {
+        String res = "";
+        for (int i = 0; i < word.length(); i++) {
+            if (word.charAt(i) == answer.charAt(i)) {
+                res += "+";
+            } else if (answer.indexOf(word.charAt(i)) != -1) {
+                res += "^";
+            } else {
+                res += "-";
+            }
+        }
+        dictionary.addWord(word, res);
+        return res;
+    }
 }
