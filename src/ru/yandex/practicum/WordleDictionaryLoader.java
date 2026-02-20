@@ -11,7 +11,7 @@ import java.util.List;
     на выходе должен быть класс WordleDictionary
  */
 public class WordleDictionaryLoader {
-    final int MAXWORDLENGTH = 5;
+    static final int MAXWORDLENGTH = 5;
     private LogWriter logWriter;
 
     public WordleDictionaryLoader(LogWriter logWriter) {

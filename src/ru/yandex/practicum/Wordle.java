@@ -14,6 +14,9 @@ import java.util.Scanner;
  */
 public class Wordle {
 
+    static final int STARTSTEP = 1;
+    static final int ENDSTEP = 5;
+    static final String WINANSWER = "+++++";
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         LogWriter log = null;
@@ -23,10 +26,6 @@ public class Wordle {
             System.err.println("Не удалось создать лог-файл: " + e.getMessage());
             return;
         }
-
-        final int STARTSTEP = 1;
-        final int ENDSTEP = 5;
-        final String WINANSWER = "+++++";
 
         WordleDictionaryLoader loader = new WordleDictionaryLoader(log);
         WordleDictionary dictionary = loader.loadDictionary("words_ru.txt");
