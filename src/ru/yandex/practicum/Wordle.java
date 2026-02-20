@@ -17,9 +17,8 @@ public class Wordle {
     static final int ENDSTEP = 5;
     static final String WINANSWER = "+++++";
 
-
-        public static void main (String[]args){
-        try(LogWriter log = new LogWriter()) {
+        public static void main (String[]args) {
+        try (LogWriter log = new LogWriter()) {
         Scanner sc = new Scanner(System.in);
 
         WordleDictionaryLoader loader = new WordleDictionaryLoader(log);
